@@ -1,0 +1,601 @@
+/* 全局样式重置和基础设置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #4f46e5;
+    --secondary-color: #64748b;
+    --background-color: #ffffff;
+    --surface-color: #f8fafc;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition: all 0.2s ease;
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #818cf8;
+        --secondary-color: #94a3b8;
+        --background-color: #0f172a;
+        --surface-color: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+    }
+    
+    /* 确保文本区域在深色模式下显示正确 */
+    #content {
+        background-color: var(--surface-color) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+    }
+}
+
+body, html {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: var(--transition);
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* 主容器 */
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--surface-color);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    padding: 15px;
+    overflow-y: auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+/* 面包屑导航 */
+.breadcrumb {
+    list-style: none;
+    padding: 12px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    font-size: 0.9rem;
+    gap: 8px;
+}
+
+.breadcrumb li,
+.breadcrumb .breadcrumb-item {
+    margin: 0;
+}
+
+.breadcrumb a,
+.breadcrumb .breadcrumb-item {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.2s ease;
+    font-weight: 500;
+}
+
+.breadcrumb a:hover,
+.breadcrumb .breadcrumb-item:hover {
+    color: #4338ca;
+}
+
+/* 笔记列表标题 */
+.sidebar-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    padding: 0 5px;
+}
+
+/* 侧边栏操作按钮 */
+.sidebar-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.refresh-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.refresh-btn:hover {
+    background-color: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* 笔记列表 */
+.note-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+/* 笔记列表项 */
+.note-item {
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: auto;
+    user-select: text;
+    background-color: var(--surface-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    gap: 12px;
+    border: 1px solid transparent;
+}
+
+/* 笔记列表项交替颜色 */
+.note-list li:nth-child(odd) {
+    background-color: var(--background-color);
+}
+
+.note-list li:nth-child(even) {
+    background-color: var(--surface-color);
+}
+
+/* 笔记列表项活跃状态 */
+.note-item.active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    box-shadow: var(--shadow-md);
+}
+
+.note-item.active .note-title-container {
+    color: white !important;
+}
+
+.note-item.active .note-id {
+    color: rgba(255, 255, 255, 0.8) !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 只读笔记样式 */
+.note-item.readonly {
+    opacity: 0.7;
+    border-color: var(--border-color);
+}
+
+.note-item.readonly .note-title-container {
+    font-style: italic;
+}
+
+/* 笔记标题容器 */
+.note-title-container {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+
+/* 新笔记样式 */
+.note-item.new-note {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    border-color: #10b981;
+}
+
+.note-item.new-note .note-title-container a {
+    color: #10b981;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.note-item.new-note .note-title-container a:hover {
+    color: #059669;
+    text-decoration: underline;
+}
+
+/* 笔记ID显示 */
+.note-id {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-family: monospace;
+    background-color: var(--surface-color);
+    padding: 2px 6px;
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+    margin-left: auto;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.note-id:hover {
+    background-color: var(--background-color);
+    border-color: var(--border-color);
+}
+
+/* 笔记ID编辑状态 */
+.note-id-edit {
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    font-family: monospace;
+    background-color: var(--background-color);
+    border: 1px solid var(--primary-color);
+    padding: 2px 6px;
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+    margin-left: auto;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+    width: 50px; /* 缩短输入框宽度 */
+    text-align: right; /* 靠右对齐文本 */
+}
+
+/* 正在保存状态 */
+.note-id-saving {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* 保存成功提示 */
+.note-id-saved {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: #10b981;
+    color: #10b981;
+}
+
+/* 删除笔记按钮 */
+.delete-note-btn {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    margin-left: 8px;
+    flex-shrink: 0;
+    opacity: 1;
+    display: inline-block;
+}
+
+.delete-note-btn:hover {
+    background-color: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.delete-note-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 文件操作按钮 */
+.file-action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.file-action-btn:hover {
+    background-color: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.file-action-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+.note-item:hover {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    transform: translateX(2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.note-item.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    transform: translateX(2px);
+    box-shadow: var(--shadow-md);
+}
+
+.note-item.readonly {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.note-item.readonly:hover {
+    background-color: transparent;
+    transform: none;
+    box-shadow: none;
+}
+
+.note-item.new-note {
+    margin-top: 10px;
+}
+
+.note-item.new-note a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.note-item.new-note:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+/* 内容区域 */
+.content {
+    flex: 1;
+    background-color: var(--surface-color);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 文本区域 */
+.note-textarea {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    background-color: var(--background-color) !important;
+    color: var(--text-primary) !important;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.7;
+    resize: none;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+}
+
+.note-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    transform: translateY(-1px);
+}
+
+/* 打印区域 */
+#printable {
+    display: none;
+}
+
+/* 消息框 */
+.message-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-md);
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 5px;
+        gap: 10px;
+        overflow-y: auto; /* 允许移动端垂直滚动 */
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 400px; /* 增加最大高度，显示更多笔记 */
+        padding: 10px;
+    }
+    
+    .content {
+        padding: 15px;
+        flex: 1;
+        min-height: 300px;
+    }
+    
+    .note-textarea {
+        padding: 1rem;
+        font-size: 0.9rem;
+        flex: 1;
+    }
+    
+    .breadcrumb {
+        margin-bottom: 1rem;
+        padding: 10px;
+    }
+    
+    .note-list {
+        margin-bottom: 1rem;
+        overflow-y: auto;
+    }
+    
+    .note-item {
+        padding: 10px 8px;
+        gap: 8px;
+    }
+    
+    /* 优化移动端笔记ID样式 */
+    .note-id {
+        font-size: 0.7rem;
+        padding: 2px 4px;
+    }
+    
+    .note-id-edit {
+        width: 80px; /* 移动端输入框更窄 */
+        font-size: 0.7rem;
+        padding: 2px 4px;
+    }
+    
+    /* 优化移动端删除按钮 */
+    .delete-note-btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    
+    /* 优化移动端标题容器 */
+    .note-title-container {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        padding: 8px;
+        max-height: 350px; /* 调整最大高度，适配更小屏幕 */
+    }
+    
+    .content {
+        padding: 10px;
+        min-height: 250px;
+    }
+    
+    .note-textarea {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+        min-height: 250px;
+    }
+    
+    .sidebar-title {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .note-item {
+        padding: 8px 6px;
+        gap: 6px;
+    }
+    
+    .note-title-container {
+        font-size: 0.8rem;
+    }
+    
+    .note-id {
+        font-size: 0.65rem;
+        padding: 2px 3px;
+    }
+    
+    .note-id-edit {
+        width: 70px;
+        font-size: 0.65rem;
+        padding: 2px 3px;
+    }
+    
+    .delete-note-btn {
+        padding: 3px 6px;
+        font-size: 0.7rem;
+    }
+    
+    .breadcrumb {
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+}
+
+/* 平滑滚动 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* 增强的过渡效果 */
+.top-menu,
+.content,
+.breadcrumb,
+#noteList li,
+.button-container button,
+#content {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
