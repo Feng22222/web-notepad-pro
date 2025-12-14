@@ -1,4 +1,4 @@
- # 网页记事本增强版（web-notepad-pro）
+## 网页记事本增强版（web-notepad-pro）
 
   本项目是基于minimalist-web-notepad项目的代码进行二次开发,包含简单txt笔记本、共享文件、图片外链几个功能，你可以将它作为跨设备数据交换的解决方案
 
@@ -35,7 +35,7 @@
 ### 详细部署教程（detailed steps）
 **1、克隆或者下载项目代码到你的本地**
 ```
-git clone 本项目Github地址
+git clone https://github.com/Feng22222/web-notepad-pro
 ```
 或者<br />直接在Github项目页面中点击Code按钮，选择Download ZIP进行源代码下载。
 
